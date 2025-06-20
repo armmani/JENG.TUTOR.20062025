@@ -58,10 +58,14 @@ authController.login = async (req, res, next) => {
     const accessToken = jwtService.genAccessToken(payload);
     console.log("accessToken", accessToken);
 
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, accessToken });
   } catch (error) {
     next(error);
   }
+};
+
+authController.getMe = (req, res) => {
+  res.status(200).json({ success: true, user: req.user });
 };
 
 export default authController;

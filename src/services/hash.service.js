@@ -8,7 +8,7 @@ hashService.hashPassword = (password) => {
 
 
 hashService.comparePassword = (password, hash) => {
-  return  bcrypt.comparePassword(password, hash)
+  return  bcrypt.compareSync(password, hash)
 }
 
 export default hashService
