@@ -2,7 +2,7 @@ import authService from "../services/auth.service.js";
 import jwtService from "../services/jwt.service.js";
 import createError from "../utils/create-error.js";
 
-const authenticate = async (req, res, nex) => {
+const authenticate = async (req, res, next) => {
   try {
     const authorization = req.headers.authorization;
 
