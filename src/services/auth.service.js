@@ -8,8 +8,15 @@ authService.findUserByEmail = (email) => {
   });
 };
 
+authService.findUserById = (id) => {
+  return prisma.user.findUnique({
+    where: { id: id },
+    omit: { password: true },
+  });
+};
+
 authService.createUser = (data) => {
-  return prisma.user.create({data: data})
+  return prisma.user.create({ data: data });
 };
 
 export default authService;

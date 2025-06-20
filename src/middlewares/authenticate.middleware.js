@@ -1,3 +1,4 @@
+import authService from "../services/auth.service.js";
 import jwtService from "../services/jwt.service.js";
 import createError from "../utils/create-error.js";
 
@@ -12,12 +13,14 @@ const authenticate = async (req, res, nex) => {
     const token = authorization.split(" ")[1];
     console.log("token", token);
 
-    const payload = jwtService.verifyToken(token);
-    console.log("payload", payload);
-
     if (!token) {
       createError(401, "Unauthorized Token");
     }
+
+    const payload = jwtService.verifyToken(token);
+    console.log("payload", payload);
+
+    const user = await authService.findUserById({ id: payload.id });
   } catch (error) {
     next(error);
   }
