@@ -1,5 +1,6 @@
 import authService from "../services/auth.service.js";
 import hashService from "../services/hash.service.js";
+import jwtService from "../services/jwt.service.js";
 import createError from "../utils/create-error.js";
 
 const authController = {};
@@ -52,9 +53,12 @@ authController.login = async (req, res, next) => {
     );
     console.log("isMatchPassword", isMatchPassword);
 
-    const payload = {id: existUser.id}
+    const payload = { id: existUser.id };
 
-    const accessToken = 
+    const accessToken = jwtService.genAccessToken(payload);
+    console.log("accessToken", accessToken);
+
+    res.status(200).json({ success: true });
   } catch (error) {
     next(error);
   }
