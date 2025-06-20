@@ -6,7 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use((err, req, res, next));
+app.use((err, req, res, next) => {
+  console.log(err);
+  res
+    .status(err.statusCode || 500)
+    .json({ message: err.message } || "internal server error");
+});
 
 const PORT = process.env.PORT || 8877;
 
