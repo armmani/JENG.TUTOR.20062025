@@ -8,4 +8,8 @@ authService.findUserByEmail = (email) => {
   });
 };
 
+authService.createUser = (data) => {
+  return prisma.user.create({data: data})
+};
+
 export default authService;

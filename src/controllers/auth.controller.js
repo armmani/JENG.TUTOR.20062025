@@ -1,10 +1,12 @@
 import authService from "../services/auth.service.js";
+import hashService from "../services/hash.service.js";
 import createError from "../utils/create-error.js";
 
 const authController = {};
 
-authController.register = async (req, resizeBy, next) => {
+authController.register = async (req, res, next) => {
   try {
+    // 1 find User by email
     const { email, password } = req.body; // เอามาจากใน model
 
     const existUser = await authService.findUserByEmail(email);
@@ -12,9 +14,34 @@ authController.register = async (req, resizeBy, next) => {
     if (existUser) {
       createError(400, "EMAIL IS ALREADY EXISTED");
     }
+    // 2 hash Password
+    const hashPassword = hashService.hashPassword(password);
+    console.log("hashPassword", hashPassword);
+
+    // 3 Create User
+    const newUser = await authService.createUser({
+      email,
+      password: hashPassword,
+    });
+    console.log("newUser", newUser);
+
+    res
+      .status(201)
+      .json({
+        success: true,
+        newUser: { id: newUser.id, email: newUser.email, role: newUser.role },
+      });
   } catch (error) {
     next(error);
   }
 };
+
+authController.login = async (req,res,next) => {
+  try {
+    
+  } catch (error) {
+    next(error)
+  }
+}
 
 export default authController;
