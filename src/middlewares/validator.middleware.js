@@ -25,3 +25,5 @@ const validatorMiddleware = (schema) => {
     }
   };
 };
+
+export default validatorMiddleware
