@@ -25,23 +25,39 @@ authController.register = async (req, res, next) => {
     });
     console.log("newUser", newUser);
 
-    res
-      .status(201)
-      .json({
-        success: true,
-        newUser: { id: newUser.id, email: newUser.email, role: newUser.role },
-      });
+    res.status(201).json({
+      success: true,
+      newUser: { id: newUser.id, email: newUser.email, role: newUser.role },
+    });
   } catch (error) {
     next(error);
   }
 };
 
-authController.login = async (req,res,next) => {
+authController.login = async (req, res, next) => {
   try {
-    
+    const { email, password } = req.body;
+
+    // 1 find User
+    const existUser = await authService.findUserByEmail(email);
+    console.log("existUser", existUser);
+
+    if (!existUser) {
+      createError(400, "Email/Password is invalid");
+    }
+
+    const isMatchPassword = hashService.comparePassword(
+      password,
+      existUser.password
+    );
+    console.log("isMatchPassword", isMatchPassword);
+
+    const payload = {id: existUser.id}
+
+    const accessToken = 
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 export default authController;
