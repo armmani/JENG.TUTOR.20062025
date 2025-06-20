@@ -11,7 +11,7 @@ authService.findUserByEmail = (email) => {
 authService.findUserById = (id) => {
   return prisma.user.findUnique({
     where: { id: id },
-    omit: { password: true },
+    select: { id: true, email: true, role: true },
   });
 };
 

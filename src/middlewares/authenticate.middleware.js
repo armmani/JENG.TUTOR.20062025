@@ -21,6 +21,12 @@ const authenticate = async (req, res, nex) => {
     console.log("payload", payload);
 
     const user = await authService.findUserById({ id: payload.id });
+    if (!user) {
+      createError(401, "Unauthorized by ID");
+    }
+
+    req.user = user;
+    next();
   } catch (error) {
     next(error);
   }
