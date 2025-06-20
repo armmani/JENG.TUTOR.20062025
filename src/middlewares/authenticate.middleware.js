@@ -20,7 +20,7 @@ const authenticate = async (req, res, nex) => {
     const payload = jwtService.verifyToken(token);
     console.log("payload", payload);
 
-    const user = await authService.findUserById({ id: payload.id });
+    const user = await authService.findUserById(payload.id);
     if (!user) {
       createError(401, "Unauthorized by ID");
     }
@@ -31,5 +31,7 @@ const authenticate = async (req, res, nex) => {
     next(error);
   }
 };
+
+export default authenticate
 
 // คนที่ login ถึงจะ getMe ได้
