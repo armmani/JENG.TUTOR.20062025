@@ -13,3 +13,17 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  pssword String @db.VarChar(255)
+  role Role @default(USER)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
